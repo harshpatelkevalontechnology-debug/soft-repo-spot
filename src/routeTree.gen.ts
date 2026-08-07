@@ -10,12 +10,14 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdvBridgeRouteImport } from './routes/adv-bridge'
 import { Route as HoldingsRouteImport } from './routes/holdings'
 import { Route as MultiLegRouteImport } from './routes/multi-leg'
 import { Route as OrderBookRouteImport } from './routes/order-book'
 import { Route as OrdersSummaryRouteImport } from './routes/orders-summary'
 import { Route as OverviewRouteImport } from './routes/overview'
 import { Route as PositionsRouteImport } from './routes/positions'
+import { Route as RemoteShareRouteImport } from './routes/remote-share'
 import { Route as RiskRouteImport } from './routes/risk'
 import { Route as SessionRouteImport } from './routes/session'
 import { Route as SignalsRouteImport } from './routes/signals'
@@ -25,6 +27,11 @@ import { Route as UserSettingsRouteImport } from './routes/user-settings'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdvBridgeRoute = AdvBridgeRouteImport.update({
+  id: '/adv-bridge',
+  path: '/adv-bridge',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HoldingsRoute = HoldingsRouteImport.update({
@@ -57,6 +64,11 @@ const PositionsRoute = PositionsRouteImport.update({
   path: '/positions',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RemoteShareRoute = RemoteShareRouteImport.update({
+  id: '/remote-share',
+  path: '/remote-share',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RiskRoute = RiskRouteImport.update({
   id: '/risk',
   path: '/risk',
@@ -85,12 +97,14 @@ const UserSettingsRoute = UserSettingsRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/adv-bridge': typeof AdvBridgeRoute
   '/holdings': typeof HoldingsRoute
   '/multi-leg': typeof MultiLegRoute
   '/order-book': typeof OrderBookRoute
   '/orders-summary': typeof OrdersSummaryRoute
   '/overview': typeof OverviewRoute
   '/positions': typeof PositionsRoute
+  '/remote-share': typeof RemoteShareRoute
   '/risk': typeof RiskRoute
   '/session': typeof SessionRoute
   '/signals': typeof SignalsRoute
@@ -99,12 +113,14 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/adv-bridge': typeof AdvBridgeRoute
   '/holdings': typeof HoldingsRoute
   '/multi-leg': typeof MultiLegRoute
   '/order-book': typeof OrderBookRoute
   '/orders-summary': typeof OrdersSummaryRoute
   '/overview': typeof OverviewRoute
   '/positions': typeof PositionsRoute
+  '/remote-share': typeof RemoteShareRoute
   '/risk': typeof RiskRoute
   '/session': typeof SessionRoute
   '/signals': typeof SignalsRoute
@@ -114,12 +130,14 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/adv-bridge': typeof AdvBridgeRoute
   '/holdings': typeof HoldingsRoute
   '/multi-leg': typeof MultiLegRoute
   '/order-book': typeof OrderBookRoute
   '/orders-summary': typeof OrdersSummaryRoute
   '/overview': typeof OverviewRoute
   '/positions': typeof PositionsRoute
+  '/remote-share': typeof RemoteShareRoute
   '/risk': typeof RiskRoute
   '/session': typeof SessionRoute
   '/signals': typeof SignalsRoute
@@ -130,12 +148,14 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/adv-bridge'
     | '/holdings'
     | '/multi-leg'
     | '/order-book'
     | '/orders-summary'
     | '/overview'
     | '/positions'
+    | '/remote-share'
     | '/risk'
     | '/session'
     | '/signals'
@@ -144,12 +164,14 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/adv-bridge'
     | '/holdings'
     | '/multi-leg'
     | '/order-book'
     | '/orders-summary'
     | '/overview'
     | '/positions'
+    | '/remote-share'
     | '/risk'
     | '/session'
     | '/signals'
@@ -158,12 +180,14 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/adv-bridge'
     | '/holdings'
     | '/multi-leg'
     | '/order-book'
     | '/orders-summary'
     | '/overview'
     | '/positions'
+    | '/remote-share'
     | '/risk'
     | '/session'
     | '/signals'
@@ -173,12 +197,14 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdvBridgeRoute: typeof AdvBridgeRoute
   HoldingsRoute: typeof HoldingsRoute
   MultiLegRoute: typeof MultiLegRoute
   OrderBookRoute: typeof OrderBookRoute
   OrdersSummaryRoute: typeof OrdersSummaryRoute
   OverviewRoute: typeof OverviewRoute
   PositionsRoute: typeof PositionsRoute
+  RemoteShareRoute: typeof RemoteShareRoute
   RiskRoute: typeof RiskRoute
   SessionRoute: typeof SessionRoute
   SignalsRoute: typeof SignalsRoute
@@ -193,6 +219,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/adv-bridge': {
+      id: '/adv-bridge'
+      path: '/adv-bridge'
+      fullPath: '/adv-bridge'
+      preLoaderRoute: typeof AdvBridgeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/holdings': {
@@ -237,6 +270,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PositionsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/remote-share': {
+      id: '/remote-share'
+      path: '/remote-share'
+      fullPath: '/remote-share'
+      preLoaderRoute: typeof RemoteShareRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/risk': {
       id: '/risk'
       path: '/risk'
@@ -277,12 +317,14 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdvBridgeRoute: AdvBridgeRoute,
   HoldingsRoute: HoldingsRoute,
   MultiLegRoute: MultiLegRoute,
   OrderBookRoute: OrderBookRoute,
   OrdersSummaryRoute: OrdersSummaryRoute,
   OverviewRoute: OverviewRoute,
   PositionsRoute: PositionsRoute,
+  RemoteShareRoute: RemoteShareRoute,
   RiskRoute: RiskRoute,
   SessionRoute: SessionRoute,
   SignalsRoute: SignalsRoute,

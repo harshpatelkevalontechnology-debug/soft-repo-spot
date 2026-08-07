@@ -12,7 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { TerminalProvider } from "@/lib/terminal-store";
-import { TerminalChrome } from "@/components/terminal/chrome";
+import { BridgeWindow } from "@/components/bridge/chrome";
 
 function NotFoundComponent() {
   return (
@@ -79,7 +79,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "LoopbackDesk — Algorithmic F&O Trading Terminal" },
+      { title: "LoopbackDesk — Intelligent Trading Bridge" },
       {
         name: "description",
         content:
@@ -130,10 +130,10 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <TerminalProvider>
-        <TerminalChrome>
+        <BridgeWindow>
           {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
           <Outlet />
-        </TerminalChrome>
+        </BridgeWindow>
       </TerminalProvider>
     </QueryClientProvider>
   );
