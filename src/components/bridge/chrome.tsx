@@ -203,8 +203,16 @@ function LogConsole() {
   const [filter, setFilter] = useState<LogFilter>("ALL");
 
   const counts = useMemo(() => {
-    const c: Record<string, number> = { ATTENTION: 0, ERROR: 0, WARNING: 0, MESSAGE: 0, TRADING: 0 };
-    logs.forEach((l) => (c[l.type] = (c[l.type] ?? 0) + 1));
+    const c: Record<LogType, number> = {
+      ATTENTION: 0,
+      ERROR: 0,
+      WARNING: 0,
+      MESSAGE: 0,
+      TRADING: 0,
+    };
+    logs.forEach((l) => {
+      c[l.type] += 1;
+    });
     return c;
   }, [logs]);
 
@@ -225,6 +233,8 @@ function LogConsole() {
     },
     { key: "MESSAGE", label: `${counts.MESSAGE} Messages`, icon: <Info className="h-3.5 w-3.5 text-primary" /> },
     { key: "TRADING", label: `${counts.TRADING} Trading`, icon: <Play className="h-3 w-3 text-profit" /> },
+  ];
+
   ];
 
   const copyAll = () => {
