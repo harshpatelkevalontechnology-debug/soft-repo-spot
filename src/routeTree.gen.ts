@@ -10,7 +10,11 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as HoldingsRouteImport } from './routes/holdings'
+import { Route as OrderBookRouteImport } from './routes/order-book'
+import { Route as OrdersSummaryRouteImport } from './routes/orders-summary'
 import { Route as OverviewRouteImport } from './routes/overview'
+import { Route as PositionsRouteImport } from './routes/positions'
 import { Route as RiskRouteImport } from './routes/risk'
 import { Route as SessionRouteImport } from './routes/session'
 import { Route as SignalsRouteImport } from './routes/signals'
@@ -21,9 +25,29 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HoldingsRoute = HoldingsRouteImport.update({
+  id: '/holdings',
+  path: '/holdings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrderBookRoute = OrderBookRouteImport.update({
+  id: '/order-book',
+  path: '/order-book',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrdersSummaryRoute = OrdersSummaryRouteImport.update({
+  id: '/orders-summary',
+  path: '/orders-summary',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OverviewRoute = OverviewRouteImport.update({
   id: '/overview',
   path: '/overview',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PositionsRoute = PositionsRouteImport.update({
+  id: '/positions',
+  path: '/positions',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RiskRoute = RiskRouteImport.update({
@@ -49,7 +73,11 @@ const StrategiesRoute = StrategiesRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/holdings': typeof HoldingsRoute
+  '/order-book': typeof OrderBookRoute
+  '/orders-summary': typeof OrdersSummaryRoute
   '/overview': typeof OverviewRoute
+  '/positions': typeof PositionsRoute
   '/risk': typeof RiskRoute
   '/session': typeof SessionRoute
   '/signals': typeof SignalsRoute
@@ -57,7 +85,11 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/holdings': typeof HoldingsRoute
+  '/order-book': typeof OrderBookRoute
+  '/orders-summary': typeof OrdersSummaryRoute
   '/overview': typeof OverviewRoute
+  '/positions': typeof PositionsRoute
   '/risk': typeof RiskRoute
   '/session': typeof SessionRoute
   '/signals': typeof SignalsRoute
@@ -66,7 +98,11 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/holdings': typeof HoldingsRoute
+  '/order-book': typeof OrderBookRoute
+  '/orders-summary': typeof OrdersSummaryRoute
   '/overview': typeof OverviewRoute
+  '/positions': typeof PositionsRoute
   '/risk': typeof RiskRoute
   '/session': typeof SessionRoute
   '/signals': typeof SignalsRoute
@@ -75,13 +111,36 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/overview' | '/risk' | '/session' | '/signals' | '/strategies'
+    | '/'
+    | '/holdings'
+    | '/order-book'
+    | '/orders-summary'
+    | '/overview'
+    | '/positions'
+    | '/risk'
+    | '/session'
+    | '/signals'
+    | '/strategies'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/overview' | '/risk' | '/session' | '/signals' | '/strategies'
+  to:
+    | '/'
+    | '/holdings'
+    | '/order-book'
+    | '/orders-summary'
+    | '/overview'
+    | '/positions'
+    | '/risk'
+    | '/session'
+    | '/signals'
+    | '/strategies'
   id:
     | '__root__'
     | '/'
+    | '/holdings'
+    | '/order-book'
+    | '/orders-summary'
     | '/overview'
+    | '/positions'
     | '/risk'
     | '/session'
     | '/signals'
@@ -90,7 +149,11 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  HoldingsRoute: typeof HoldingsRoute
+  OrderBookRoute: typeof OrderBookRoute
+  OrdersSummaryRoute: typeof OrdersSummaryRoute
   OverviewRoute: typeof OverviewRoute
+  PositionsRoute: typeof PositionsRoute
   RiskRoute: typeof RiskRoute
   SessionRoute: typeof SessionRoute
   SignalsRoute: typeof SignalsRoute
@@ -106,11 +169,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/holdings': {
+      id: '/holdings'
+      path: '/holdings'
+      fullPath: '/holdings'
+      preLoaderRoute: typeof HoldingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/order-book': {
+      id: '/order-book'
+      path: '/order-book'
+      fullPath: '/order-book'
+      preLoaderRoute: typeof OrderBookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/orders-summary': {
+      id: '/orders-summary'
+      path: '/orders-summary'
+      fullPath: '/orders-summary'
+      preLoaderRoute: typeof OrdersSummaryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/overview': {
       id: '/overview'
       path: '/overview'
       fullPath: '/overview'
       preLoaderRoute: typeof OverviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/positions': {
+      id: '/positions'
+      path: '/positions'
+      fullPath: '/positions'
+      preLoaderRoute: typeof PositionsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/risk': {
@@ -146,7 +237,11 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  HoldingsRoute: HoldingsRoute,
+  OrderBookRoute: OrderBookRoute,
+  OrdersSummaryRoute: OrdersSummaryRoute,
   OverviewRoute: OverviewRoute,
+  PositionsRoute: PositionsRoute,
   RiskRoute: RiskRoute,
   SessionRoute: SessionRoute,
   SignalsRoute: SignalsRoute,
