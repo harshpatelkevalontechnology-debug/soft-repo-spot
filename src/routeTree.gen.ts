@@ -10,13 +10,63 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdvBridgeRouteImport } from './routes/adv-bridge'
+import { Route as HoldingsRouteImport } from './routes/holdings'
+import { Route as MultiLegRouteImport } from './routes/multi-leg'
+import { Route as OrderBookRouteImport } from './routes/order-book'
+import { Route as OrdersSummaryRouteImport } from './routes/orders-summary'
+import { Route as OverviewRouteImport } from './routes/overview'
+import { Route as PositionsRouteImport } from './routes/positions'
+import { Route as RemoteShareRouteImport } from './routes/remote-share'
 import { Route as RiskRouteImport } from './routes/risk'
 import { Route as SessionRouteImport } from './routes/session'
+import { Route as SignalsRouteImport } from './routes/signals'
 import { Route as StrategiesRouteImport } from './routes/strategies'
+import { Route as UserSettingsRouteImport } from './routes/user-settings'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdvBridgeRoute = AdvBridgeRouteImport.update({
+  id: '/adv-bridge',
+  path: '/adv-bridge',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HoldingsRoute = HoldingsRouteImport.update({
+  id: '/holdings',
+  path: '/holdings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MultiLegRoute = MultiLegRouteImport.update({
+  id: '/multi-leg',
+  path: '/multi-leg',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrderBookRoute = OrderBookRouteImport.update({
+  id: '/order-book',
+  path: '/order-book',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrdersSummaryRoute = OrdersSummaryRouteImport.update({
+  id: '/orders-summary',
+  path: '/orders-summary',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OverviewRoute = OverviewRouteImport.update({
+  id: '/overview',
+  path: '/overview',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PositionsRoute = PositionsRouteImport.update({
+  id: '/positions',
+  path: '/positions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RemoteShareRoute = RemoteShareRouteImport.update({
+  id: '/remote-share',
+  path: '/remote-share',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RiskRoute = RiskRouteImport.update({
@@ -29,44 +79,137 @@ const SessionRoute = SessionRouteImport.update({
   path: '/session',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SignalsRoute = SignalsRouteImport.update({
+  id: '/signals',
+  path: '/signals',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StrategiesRoute = StrategiesRouteImport.update({
   id: '/strategies',
   path: '/strategies',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UserSettingsRoute = UserSettingsRouteImport.update({
+  id: '/user-settings',
+  path: '/user-settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/adv-bridge': typeof AdvBridgeRoute
+  '/holdings': typeof HoldingsRoute
+  '/multi-leg': typeof MultiLegRoute
+  '/order-book': typeof OrderBookRoute
+  '/orders-summary': typeof OrdersSummaryRoute
+  '/overview': typeof OverviewRoute
+  '/positions': typeof PositionsRoute
+  '/remote-share': typeof RemoteShareRoute
   '/risk': typeof RiskRoute
   '/session': typeof SessionRoute
+  '/signals': typeof SignalsRoute
   '/strategies': typeof StrategiesRoute
+  '/user-settings': typeof UserSettingsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/adv-bridge': typeof AdvBridgeRoute
+  '/holdings': typeof HoldingsRoute
+  '/multi-leg': typeof MultiLegRoute
+  '/order-book': typeof OrderBookRoute
+  '/orders-summary': typeof OrdersSummaryRoute
+  '/overview': typeof OverviewRoute
+  '/positions': typeof PositionsRoute
+  '/remote-share': typeof RemoteShareRoute
   '/risk': typeof RiskRoute
   '/session': typeof SessionRoute
+  '/signals': typeof SignalsRoute
   '/strategies': typeof StrategiesRoute
+  '/user-settings': typeof UserSettingsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/adv-bridge': typeof AdvBridgeRoute
+  '/holdings': typeof HoldingsRoute
+  '/multi-leg': typeof MultiLegRoute
+  '/order-book': typeof OrderBookRoute
+  '/orders-summary': typeof OrdersSummaryRoute
+  '/overview': typeof OverviewRoute
+  '/positions': typeof PositionsRoute
+  '/remote-share': typeof RemoteShareRoute
   '/risk': typeof RiskRoute
   '/session': typeof SessionRoute
+  '/signals': typeof SignalsRoute
   '/strategies': typeof StrategiesRoute
+  '/user-settings': typeof UserSettingsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/risk' | '/session' | '/strategies'
+  fullPaths:
+    | '/'
+    | '/adv-bridge'
+    | '/holdings'
+    | '/multi-leg'
+    | '/order-book'
+    | '/orders-summary'
+    | '/overview'
+    | '/positions'
+    | '/remote-share'
+    | '/risk'
+    | '/session'
+    | '/signals'
+    | '/strategies'
+    | '/user-settings'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/risk' | '/session' | '/strategies'
-  id: '__root__' | '/' | '/risk' | '/session' | '/strategies'
+  to:
+    | '/'
+    | '/adv-bridge'
+    | '/holdings'
+    | '/multi-leg'
+    | '/order-book'
+    | '/orders-summary'
+    | '/overview'
+    | '/positions'
+    | '/remote-share'
+    | '/risk'
+    | '/session'
+    | '/signals'
+    | '/strategies'
+    | '/user-settings'
+  id:
+    | '__root__'
+    | '/'
+    | '/adv-bridge'
+    | '/holdings'
+    | '/multi-leg'
+    | '/order-book'
+    | '/orders-summary'
+    | '/overview'
+    | '/positions'
+    | '/remote-share'
+    | '/risk'
+    | '/session'
+    | '/signals'
+    | '/strategies'
+    | '/user-settings'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdvBridgeRoute: typeof AdvBridgeRoute
+  HoldingsRoute: typeof HoldingsRoute
+  MultiLegRoute: typeof MultiLegRoute
+  OrderBookRoute: typeof OrderBookRoute
+  OrdersSummaryRoute: typeof OrdersSummaryRoute
+  OverviewRoute: typeof OverviewRoute
+  PositionsRoute: typeof PositionsRoute
+  RemoteShareRoute: typeof RemoteShareRoute
   RiskRoute: typeof RiskRoute
   SessionRoute: typeof SessionRoute
+  SignalsRoute: typeof SignalsRoute
   StrategiesRoute: typeof StrategiesRoute
+  UserSettingsRoute: typeof UserSettingsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -76,6 +219,62 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/adv-bridge': {
+      id: '/adv-bridge'
+      path: '/adv-bridge'
+      fullPath: '/adv-bridge'
+      preLoaderRoute: typeof AdvBridgeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/holdings': {
+      id: '/holdings'
+      path: '/holdings'
+      fullPath: '/holdings'
+      preLoaderRoute: typeof HoldingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/multi-leg': {
+      id: '/multi-leg'
+      path: '/multi-leg'
+      fullPath: '/multi-leg'
+      preLoaderRoute: typeof MultiLegRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/order-book': {
+      id: '/order-book'
+      path: '/order-book'
+      fullPath: '/order-book'
+      preLoaderRoute: typeof OrderBookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/orders-summary': {
+      id: '/orders-summary'
+      path: '/orders-summary'
+      fullPath: '/orders-summary'
+      preLoaderRoute: typeof OrdersSummaryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/overview': {
+      id: '/overview'
+      path: '/overview'
+      fullPath: '/overview'
+      preLoaderRoute: typeof OverviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/positions': {
+      id: '/positions'
+      path: '/positions'
+      fullPath: '/positions'
+      preLoaderRoute: typeof PositionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/remote-share': {
+      id: '/remote-share'
+      path: '/remote-share'
+      fullPath: '/remote-share'
+      preLoaderRoute: typeof RemoteShareRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/risk': {
@@ -92,6 +291,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SessionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/signals': {
+      id: '/signals'
+      path: '/signals'
+      fullPath: '/signals'
+      preLoaderRoute: typeof SignalsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/strategies': {
       id: '/strategies'
       path: '/strategies'
@@ -99,25 +305,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StrategiesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/user-settings': {
+      id: '/user-settings'
+      path: '/user-settings'
+      fullPath: '/user-settings'
+      preLoaderRoute: typeof UserSettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdvBridgeRoute: AdvBridgeRoute,
+  HoldingsRoute: HoldingsRoute,
+  MultiLegRoute: MultiLegRoute,
+  OrderBookRoute: OrderBookRoute,
+  OrdersSummaryRoute: OrdersSummaryRoute,
+  OverviewRoute: OverviewRoute,
+  PositionsRoute: PositionsRoute,
+  RemoteShareRoute: RemoteShareRoute,
   RiskRoute: RiskRoute,
   SessionRoute: SessionRoute,
+  SignalsRoute: SignalsRoute,
   StrategiesRoute: StrategiesRoute,
+  UserSettingsRoute: UserSettingsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

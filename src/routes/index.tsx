@@ -1,159 +1,107 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Link } from "@tanstack/react-router";
 import { useTerminal } from "@/lib/terminal-store";
-import { formatMoney } from "@/lib/trading-data";
-import { Panel, Pill, Stat, Meter } from "@/components/terminal/primitives";
-import { OrderBook } from "@/components/terminal/order-book";
-import { ArrowUpRight } from "lucide-react";
+import type { SymbolMapRow } from "@/lib/bridge-data";
+import { CheckCell, DataGrid, type GridColumn } from "@/components/bridge/data-grid";
+import { Pencil, Plus, Trash2, Upload, Download } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Trading Dashboard — LoopbackDesk" },
+      { title: "Symbol Mapping — LoopbackDesk Bridge" },
       {
         name: "description",
         content:
-          "Live day MTM, order book with SUCCESS/FAILED/UNKNOWN reconciliation, running strategies and risk headroom in one desk view.",
+          "Map source symbols from your data provider to exchange symbols, products, order types and per-symbol quantity and risk caps.",
       },
-      { property: "og:title", content: "Trading Dashboard — LoopbackDesk" },
+      { property: "og:title", content: "Symbol Mapping — LoopbackDesk Bridge" },
       {
         property: "og:description",
-        content: "Live day MTM, order book, running strategies and risk headroom in one desk view.",
+        content: "Source-to-exchange symbol mapping with per-symbol quantity and risk caps.",
       },
     ],
   }),
-  component: Dashboard,
+  component: SymbolMapping,
 });
 
-function Dashboard() {
-  const { orders, strategies, risk, session } = useTerminal();
+function SymbolMapping() {
+  const { symbolMaps, toggleSymbolMap, deleteSymbolMap } = useTerminal();
 
-  const dayMtm = strategies.reduce((a, s) => a + s.mtm, 0);
-  const running = strategies.filter((s) => s.state === "RUNNING").length;
-  const unresolved = orders.filter((o) => o.status === "UNKNOWN" || o.status === "PENDING").length;
-  const maxLoss = risk.find((r) => r.id === "RISK-MAXLOSS");
-  const lossUsedPct = maxLoss ? Math.min(100, (Math.abs(Math.min(dayMtm, 0)) / maxLoss.value) * 100) : 0;
-  const degraded = session.filter((s) => s.state !== "OK");
+  const columns: GridColumn<SymbolMapRow>[] = [
+    {
+      key: "enabled",
+      header: "Enabled",
+      align: "center",
+      value: (r) => (r.enabled ? "Yes" : "No"),
+      render: (r) => <CheckCell checked={r.enabled} onToggle={() => toggleSymbolMap(r.id)} />,
+    },
+    {
+      key: "edit",
+      header: "Edit",
+      align: "center",
+      filter: false,
+      render: () => <Pencil className="mx-auto h-3.5 w-3.5 text-accent" />,
+    },
+    {
+      key: "delete",
+      header: "Delete",
+      align: "center",
+      filter: false,
+      render: (r) => (
+        <button type="button" aria-label={`Delete ${r.sourceSymbol}`} onClick={() => deleteSymbolMap(r.id)}>
+          <Trash2 className="mx-auto h-3.5 w-3.5 text-loss" />
+        </button>
+      ),
+    },
+    { key: "sourceSymbol", header: "Source Symbol" },
+    { key: "dataProvider", header: "Data Provider" },
+    { key: "mapping", header: "Mapping" },
+    { key: "exchange", header: "Exchange" },
+    { key: "exchgSymbol", header: "Exchg Symbol" },
+    { key: "product", header: "Product" },
+    { key: "entryOrder", header: "Entry Order" },
+    { key: "exitOrder", header: "Exit Order" },
+    { key: "strategies", header: "Strategies" },
+    { key: "qtyType", header: "Qty Type" },
+    { key: "qtyValue", header: "Qty Value", align: "right" },
+    { key: "maxQty", header: "Max Qty", align: "right" },
+    { key: "maxOpenPos", header: "Max Open Pos", align: "right" },
+    { key: "maxOpenTrades", header: "Max Open Trades", align: "right" },
+    { key: "maxTrades", header: "Max Trades", align: "right" },
+    { key: "maxProfitPerTrade", header: "Max Profit Per Trade", align: "right" },
+    { key: "maxLossPerTrade", header: "Max Loss Per Trade", align: "right" },
+  ];
 
   return (
-    <div className="space-y-5">
-      <div>
-        <div className="label-eyebrow">Desk overview</div>
-        <h1 className="text-2xl font-semibold tracking-tight">Trading dashboard</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Single install, own broker credentials. All trading state lives on this client — the core owns
-          execution, the wrapper is stateless.
-        </p>
-      </div>
-
-      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        <Stat
-          label="Day MTM"
-          value={formatMoney(dayMtm, { sign: true })}
-          sub={`${strategies.length} strategies loaded`}
-          tone={dayMtm >= 0 ? "profit" : "loss"}
-        />
-        <Stat label="Running strategies" value={String(running)} sub={`${running} of ${strategies.length} live`} tone="primary" />
-        <Stat
-          label="Unresolved orders"
-          value={String(unresolved)}
-          sub="Pending or UNKNOWN — reconcile before re-send"
-          tone={unresolved ? "loss" : "neutral"}
-        />
-        <Stat
-          label="Orders today"
-          value={String(orders.length)}
-          sub="Rate cap 8/sec/exchange (SEBI threshold 10)"
-        />
-      </div>
-
-      <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_320px]">
-        <Panel
-          eyebrow="FR-ORD"
-          title="Order book"
-          action={<Pill tone="info">Live</Pill>}
-          bodyClassName="p-0"
-        >
-          <OrderBook orders={orders} />
-        </Panel>
-
-        <div className="space-y-5">
-          <Panel
-            eyebrow="FR-RISK"
-            title="Loss headroom"
-            action={
-              <Link to="/risk" className="num text-[0.6875rem] uppercase tracking-wider text-primary hover:underline">
-                Limits
-              </Link>
-            }
-            bodyClassName="space-y-3 px-4 py-4"
-          >
-            <div className="flex items-baseline justify-between">
-              <span className="num text-xl font-semibold text-foreground">
-                {maxLoss ? formatMoney(maxLoss.value - Math.abs(Math.min(dayMtm, 0))) : "—"}
-              </span>
-              <span className="text-xs text-muted-foreground">
-                of {maxLoss ? formatMoney(maxLoss.value) : "—"}
-              </span>
-            </div>
-            <Meter pct={lossUsedPct} tone={lossUsedPct > 70 ? "bad" : lossUsedPct > 40 ? "warn" : "ok"} />
-            <p className="text-xs text-muted-foreground">
-              Breach action: square off all positions and block new orders for the session.
-            </p>
-          </Panel>
-
-          <Panel
-            eyebrow="FR-STR"
-            title="Strategies"
-            action={
-              <Link to="/strategies" className="num text-[0.6875rem] uppercase tracking-wider text-primary hover:underline">
-                Open
-              </Link>
-            }
-            bodyClassName="divide-y divide-grid"
-          >
-            {strategies.map((s) => (
-              <Link
-                key={s.id}
-                to="/strategies"
-                className="scan-row flex items-center justify-between gap-3 px-4 py-3 hover:bg-surface-raised/60"
-              >
-                <div className="min-w-0">
-                  <div className="truncate text-sm">{s.name}</div>
-                  <div className="num text-[0.6875rem] uppercase tracking-wider text-muted-foreground">
-                    {s.underlying} · {s.legs.length} legs · {s.state}
-                  </div>
-                </div>
-                <span className={`num text-sm ${s.mtm >= 0 ? "text-profit" : "text-loss"}`}>
-                  {formatMoney(s.mtm, { sign: true })}
-                </span>
-              </Link>
-            ))}
-          </Panel>
-
-          <Panel eyebrow="FR-SESS" title="Session health" bodyClassName="space-y-2.5 px-4 py-4">
-            {degraded.length === 0 ? (
-              <p className="text-xs text-muted-foreground">All hops healthy.</p>
-            ) : (
-              degraded.map((c) => (
-                <div key={c.id} className="flex items-start justify-between gap-3">
-                  <div>
-                    <div className="text-xs">{c.name}</div>
-                    <div className="text-[0.6875rem] text-muted-foreground">{c.detail}</div>
-                  </div>
-                  <Pill tone={c.state === "DOWN" ? "bad" : "warn"}>{c.state}</Pill>
-                </div>
-              ))
-            )}
-            <Link
-              to="/session"
-              className="num inline-flex items-center gap-1 pt-1 text-[0.6875rem] uppercase tracking-wider text-primary hover:underline"
-            >
-              Full supervisor <ArrowUpRight className="size-3" />
-            </Link>
-          </Panel>
-        </div>
-      </div>
-    </div>
+    <DataGrid
+      columns={columns}
+      rows={symbolMaps}
+      rowKey={(r) => r.id}
+      groupBand={false}
+      hints={["FOR BEST PERFORMANCE, DISABLE THE MAPPINGS WHICH ARE NOT REQUIRED."]}
+      toolbar={
+        <>
+          <button type="button" className="chrome-btn">
+            <Plus className="h-3.5 w-3.5 text-profit" />
+            Add Symbol
+          </button>
+          <button type="button" className="chrome-btn">
+            <Trash2 className="h-3.5 w-3.5 text-loss" />
+            Delete All Symbols
+          </button>
+          <button type="button" className="chrome-btn">
+            <Plus className="h-3.5 w-3.5 text-profit" />
+            Add Adv Symbol
+          </button>
+          <button type="button" className="chrome-btn">
+            <Upload className="h-3.5 w-3.5 text-primary" />
+            Import Symbols
+          </button>
+          <button type="button" className="chrome-btn">
+            <Download className="h-3.5 w-3.5 text-profit" />
+            Export Symbols
+          </button>
+        </>
+      }
+    />
   );
 }
