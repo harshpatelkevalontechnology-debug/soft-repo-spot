@@ -6,7 +6,7 @@ import { Panel, Pill, Stat, Meter } from "@/components/terminal/primitives";
 import { OrderBook } from "@/components/terminal/order-book";
 import { ArrowUpRight } from "lucide-react";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/overview")({
   head: () => ({
     meta: [
       { title: "Trading Dashboard — LoopbackDesk" },
