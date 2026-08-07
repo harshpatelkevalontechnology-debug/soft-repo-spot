@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as HoldingsRouteImport } from './routes/holdings'
+import { Route as MultiLegRouteImport } from './routes/multi-leg'
 import { Route as OrderBookRouteImport } from './routes/order-book'
 import { Route as OrdersSummaryRouteImport } from './routes/orders-summary'
 import { Route as OverviewRouteImport } from './routes/overview'
@@ -19,6 +20,7 @@ import { Route as RiskRouteImport } from './routes/risk'
 import { Route as SessionRouteImport } from './routes/session'
 import { Route as SignalsRouteImport } from './routes/signals'
 import { Route as StrategiesRouteImport } from './routes/strategies'
+import { Route as UserSettingsRouteImport } from './routes/user-settings'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,6 +30,11 @@ const IndexRoute = IndexRouteImport.update({
 const HoldingsRoute = HoldingsRouteImport.update({
   id: '/holdings',
   path: '/holdings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MultiLegRoute = MultiLegRouteImport.update({
+  id: '/multi-leg',
+  path: '/multi-leg',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OrderBookRoute = OrderBookRouteImport.update({
@@ -70,10 +77,16 @@ const StrategiesRoute = StrategiesRouteImport.update({
   path: '/strategies',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UserSettingsRoute = UserSettingsRouteImport.update({
+  id: '/user-settings',
+  path: '/user-settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/holdings': typeof HoldingsRoute
+  '/multi-leg': typeof MultiLegRoute
   '/order-book': typeof OrderBookRoute
   '/orders-summary': typeof OrdersSummaryRoute
   '/overview': typeof OverviewRoute
@@ -82,10 +95,12 @@ export interface FileRoutesByFullPath {
   '/session': typeof SessionRoute
   '/signals': typeof SignalsRoute
   '/strategies': typeof StrategiesRoute
+  '/user-settings': typeof UserSettingsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/holdings': typeof HoldingsRoute
+  '/multi-leg': typeof MultiLegRoute
   '/order-book': typeof OrderBookRoute
   '/orders-summary': typeof OrdersSummaryRoute
   '/overview': typeof OverviewRoute
@@ -94,11 +109,13 @@ export interface FileRoutesByTo {
   '/session': typeof SessionRoute
   '/signals': typeof SignalsRoute
   '/strategies': typeof StrategiesRoute
+  '/user-settings': typeof UserSettingsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/holdings': typeof HoldingsRoute
+  '/multi-leg': typeof MultiLegRoute
   '/order-book': typeof OrderBookRoute
   '/orders-summary': typeof OrdersSummaryRoute
   '/overview': typeof OverviewRoute
@@ -107,12 +124,14 @@ export interface FileRoutesById {
   '/session': typeof SessionRoute
   '/signals': typeof SignalsRoute
   '/strategies': typeof StrategiesRoute
+  '/user-settings': typeof UserSettingsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/holdings'
+    | '/multi-leg'
     | '/order-book'
     | '/orders-summary'
     | '/overview'
@@ -121,10 +140,12 @@ export interface FileRouteTypes {
     | '/session'
     | '/signals'
     | '/strategies'
+    | '/user-settings'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/holdings'
+    | '/multi-leg'
     | '/order-book'
     | '/orders-summary'
     | '/overview'
@@ -133,10 +154,12 @@ export interface FileRouteTypes {
     | '/session'
     | '/signals'
     | '/strategies'
+    | '/user-settings'
   id:
     | '__root__'
     | '/'
     | '/holdings'
+    | '/multi-leg'
     | '/order-book'
     | '/orders-summary'
     | '/overview'
@@ -145,11 +168,13 @@ export interface FileRouteTypes {
     | '/session'
     | '/signals'
     | '/strategies'
+    | '/user-settings'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   HoldingsRoute: typeof HoldingsRoute
+  MultiLegRoute: typeof MultiLegRoute
   OrderBookRoute: typeof OrderBookRoute
   OrdersSummaryRoute: typeof OrdersSummaryRoute
   OverviewRoute: typeof OverviewRoute
@@ -158,6 +183,7 @@ export interface RootRouteChildren {
   SessionRoute: typeof SessionRoute
   SignalsRoute: typeof SignalsRoute
   StrategiesRoute: typeof StrategiesRoute
+  UserSettingsRoute: typeof UserSettingsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -174,6 +200,13 @@ declare module '@tanstack/react-router' {
       path: '/holdings'
       fullPath: '/holdings'
       preLoaderRoute: typeof HoldingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/multi-leg': {
+      id: '/multi-leg'
+      path: '/multi-leg'
+      fullPath: '/multi-leg'
+      preLoaderRoute: typeof MultiLegRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/order-book': {
@@ -232,12 +265,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StrategiesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/user-settings': {
+      id: '/user-settings'
+      path: '/user-settings'
+      fullPath: '/user-settings'
+      preLoaderRoute: typeof UserSettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   HoldingsRoute: HoldingsRoute,
+  MultiLegRoute: MultiLegRoute,
   OrderBookRoute: OrderBookRoute,
   OrdersSummaryRoute: OrdersSummaryRoute,
   OverviewRoute: OverviewRoute,
@@ -246,6 +287,7 @@ const rootRouteChildren: RootRouteChildren = {
   SessionRoute: SessionRoute,
   SignalsRoute: SignalsRoute,
   StrategiesRoute: StrategiesRoute,
+  UserSettingsRoute: UserSettingsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
