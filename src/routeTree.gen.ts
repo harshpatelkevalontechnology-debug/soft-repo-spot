@@ -9,14 +9,14 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as OverviewRouteImport } from './routes/overview'
 import { Route as RiskRouteImport } from './routes/risk'
 import { Route as SessionRouteImport } from './routes/session'
 import { Route as StrategiesRouteImport } from './routes/strategies'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const OverviewRoute = OverviewRouteImport.update({
+  id: '/overview',
+  path: '/overview',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RiskRoute = RiskRouteImport.update({
@@ -36,34 +36,34 @@ const StrategiesRoute = StrategiesRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/overview': typeof OverviewRoute
   '/risk': typeof RiskRoute
   '/session': typeof SessionRoute
   '/strategies': typeof StrategiesRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/overview': typeof OverviewRoute
   '/risk': typeof RiskRoute
   '/session': typeof SessionRoute
   '/strategies': typeof StrategiesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/overview': typeof OverviewRoute
   '/risk': typeof RiskRoute
   '/session': typeof SessionRoute
   '/strategies': typeof StrategiesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/risk' | '/session' | '/strategies'
+  fullPaths: '/overview' | '/risk' | '/session' | '/strategies'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/risk' | '/session' | '/strategies'
-  id: '__root__' | '/' | '/risk' | '/session' | '/strategies'
+  to: '/overview' | '/risk' | '/session' | '/strategies'
+  id: '__root__' | '/overview' | '/risk' | '/session' | '/strategies'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  OverviewRoute: typeof OverviewRoute
   RiskRoute: typeof RiskRoute
   SessionRoute: typeof SessionRoute
   StrategiesRoute: typeof StrategiesRoute
@@ -71,11 +71,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/overview': {
+      id: '/overview'
+      path: '/overview'
+      fullPath: '/overview'
+      preLoaderRoute: typeof OverviewRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/risk': {
@@ -103,7 +103,7 @@ declare module '@tanstack/react-router' {
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  OverviewRoute: OverviewRoute,
   RiskRoute: RiskRoute,
   SessionRoute: SessionRoute,
   StrategiesRoute: StrategiesRoute,
@@ -111,13 +111,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
