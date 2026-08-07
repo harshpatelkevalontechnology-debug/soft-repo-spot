@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as OverviewRouteImport } from './routes/overview'
 import { Route as RiskRouteImport } from './routes/risk'
 import { Route as SessionRouteImport } from './routes/session'
+import { Route as SignalsRouteImport } from './routes/signals'
 import { Route as StrategiesRouteImport } from './routes/strategies'
 
 const IndexRoute = IndexRouteImport.update({
@@ -35,6 +36,11 @@ const SessionRoute = SessionRouteImport.update({
   path: '/session',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SignalsRoute = SignalsRouteImport.update({
+  id: '/signals',
+  path: '/signals',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StrategiesRoute = StrategiesRouteImport.update({
   id: '/strategies',
   path: '/strategies',
@@ -46,6 +52,7 @@ export interface FileRoutesByFullPath {
   '/overview': typeof OverviewRoute
   '/risk': typeof RiskRoute
   '/session': typeof SessionRoute
+  '/signals': typeof SignalsRoute
   '/strategies': typeof StrategiesRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +60,7 @@ export interface FileRoutesByTo {
   '/overview': typeof OverviewRoute
   '/risk': typeof RiskRoute
   '/session': typeof SessionRoute
+  '/signals': typeof SignalsRoute
   '/strategies': typeof StrategiesRoute
 }
 export interface FileRoutesById {
@@ -61,14 +69,23 @@ export interface FileRoutesById {
   '/overview': typeof OverviewRoute
   '/risk': typeof RiskRoute
   '/session': typeof SessionRoute
+  '/signals': typeof SignalsRoute
   '/strategies': typeof StrategiesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/overview' | '/risk' | '/session' | '/strategies'
+  fullPaths:
+    '/' | '/overview' | '/risk' | '/session' | '/signals' | '/strategies'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/overview' | '/risk' | '/session' | '/strategies'
-  id: '__root__' | '/' | '/overview' | '/risk' | '/session' | '/strategies'
+  to: '/' | '/overview' | '/risk' | '/session' | '/signals' | '/strategies'
+  id:
+    | '__root__'
+    | '/'
+    | '/overview'
+    | '/risk'
+    | '/session'
+    | '/signals'
+    | '/strategies'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -76,6 +93,7 @@ export interface RootRouteChildren {
   OverviewRoute: typeof OverviewRoute
   RiskRoute: typeof RiskRoute
   SessionRoute: typeof SessionRoute
+  SignalsRoute: typeof SignalsRoute
   StrategiesRoute: typeof StrategiesRoute
 }
 
@@ -109,6 +127,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SessionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/signals': {
+      id: '/signals'
+      path: '/signals'
+      fullPath: '/signals'
+      preLoaderRoute: typeof SignalsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/strategies': {
       id: '/strategies'
       path: '/strategies'
@@ -124,6 +149,7 @@ const rootRouteChildren: RootRouteChildren = {
   OverviewRoute: OverviewRoute,
   RiskRoute: RiskRoute,
   SessionRoute: SessionRoute,
+  SignalsRoute: SignalsRoute,
   StrategiesRoute: StrategiesRoute,
 }
 export const routeTree = rootRouteImport
