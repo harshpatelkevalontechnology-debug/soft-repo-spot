@@ -235,7 +235,7 @@ function LogConsole() {
     { key: "TRADING", label: `${counts.TRADING} Trading`, icon: <Play className="h-3 w-3 text-profit" /> },
   ];
 
-  ];
+
 
   const copyAll = () => {
     const text = visible.map((l) => `${l.timestamp}\t${l.type}\t${l.message}`).join("\n");
